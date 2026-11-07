@@ -1,6 +1,13 @@
 import { evaluateEligibility, detectMissingDocuments } from '../src/utils/eligibilityEngine.ts';
 import { SAMPLE_SCHOLARSHIPS } from '../src/data/sampleScholarships.ts';
 import { DEMO_PROFILES, INITIAL_VAULT_DOCUMENTS } from '../src/data/demoProfiles.ts';
+import { 
+  sanitizeInput, 
+  maskSensitiveId, 
+  validatePasswordStrength, 
+  validateUploadedFile, 
+  isSafeUrl 
+} from '../src/utils/security.ts';
 
 console.log('🧪 Starting GRANTLY Rule Engine & Data Verification Test Suite...\n');
 
@@ -79,6 +86,66 @@ assert(
 assert(
   priyaAdobeEval.opportunityScore >= 0 && priyaAdobeEval.opportunityScore <= 100,
   'Opportunity score is normalized within 0 to 100 range'
+);
+
+// --- SECURITY TEST SUITE ---
+console.log('\n🔒 Starting Security & Data Protection Unit Tests...\n');
+
+// Security Test 1: XSS Sanitization
+const dirtyInput = '<script>alert("xss")</script>Priya Sharma';
+const sanitized = sanitizeInput(dirtyInput);
+assert(
+  !sanitized.includes('<script>') && !sanitized.includes('</script>') && sanitized.includes('Priya Sharma'),
+  'XSS tags stripped cleanly from user text input'
+);
+
+// Security Test 2: Document Extension Whitelisting
+const dangerousFile = validateUploadedFile('exploit.exe', 1024);
+assert(
+  dangerousFile.isValid === false,
+  'Rejects executable file extension (.exe)'
+);
+
+const legitimateFile = validateUploadedFile('Income_Tehsildar_2026.pdf', 1024 * 500);
+assert(
+  legitimateFile.isValid === true,
+  'Accepts authenticated PDF document (.pdf)'
+);
+
+// Security Test 3: Sensitive Identification Masking
+const maskedAadhaar = maskSensitiveId('123456789012', 'aadhaar');
+assert(
+  maskedAadhaar === 'XXXX-XXXX-9012',
+  `Aadhaar correctly masked (${maskedAadhaar} === XXXX-XXXX-9012)`
+);
+
+const maskedPhone = maskSensitiveId('+919876543210', 'phone');
+assert(
+  maskedPhone.includes('****'),
+  `Phone number masked with asterisks (${maskedPhone})`
+);
+
+// Security Test 4: Password Strength Calculation
+const weakPass = validatePasswordStrength('abc');
+assert(
+  weakPass.strength === 'Weak' && weakPass.score < 2,
+  'Identifies weak password (<8 characters, no numbers/specials)'
+);
+
+const strongPass = validatePasswordStrength('Grantly@2026Secure!');
+assert(
+  strongPass.strength === 'Strong' && strongPass.score === 4,
+  'Validates strong password with uppercase, numbers, and specials'
+);
+
+// Security Test 5: Safe URL Verification
+assert(
+  isSafeUrl('https://scholarships.gov.in') === true,
+  'Validates official HTTPS portal link'
+);
+assert(
+  isSafeUrl('javascript:alert(1)') === false,
+  'Blocks dangerous javascript pseudo-protocol URL'
 );
 
 console.log(`\n🎉 Test Suite Completed: ${passedTests}/${totalTests} tests passed successfully!`);

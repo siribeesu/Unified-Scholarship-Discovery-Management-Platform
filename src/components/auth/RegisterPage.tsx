@@ -1,20 +1,39 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { GraduationCap, ArrowRight, User, Mail, Lock, CheckCircle2 } from 'lucide-react';
+import { GraduationCap, ArrowRight, User, Mail, Lock, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { sanitizeInput, validatePasswordStrength } from '../../utils/security';
 
 export const RegisterPage: React.FC = () => {
-  const { setCurrentView, registerAndOnboard } = useApp();
+  const { setCurrentView } = useApp();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [agree, setAgree] = useState(true);
+  const [error, setError] = useState('');
+
+  const passwordEval = validatePasswordStrength(password);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!agree) {
-      alert('Please agree to the student platform terms.');
+    const cleanName = sanitizeInput(fullName);
+    const cleanEmail = sanitizeInput(email);
+
+    if (!cleanName || !cleanEmail || !password) {
+      setError('All fields are required.');
       return;
     }
+
+    if (passwordEval.score < 2) {
+      setError('Please choose a stronger password before proceeding.');
+      return;
+    }
+
+    if (!agree) {
+      setError('Please agree to the student platform data security policy.');
+      return;
+    }
+
+    setError('');
     // Transition straight to onboarding wizard with prefilled details
     setCurrentView('onboarding');
   };
@@ -32,6 +51,13 @@ export const RegisterPage: React.FC = () => {
           </p>
         </div>
 
+        {error && (
+          <div className="mb-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1">Full Legal Name</label>
@@ -44,6 +70,7 @@ export const RegisterPage: React.FC = () => {
                 placeholder="e.g. Priya Sharma"
                 className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
                 required
+                maxLength={70}
               />
             </div>
           </div>
@@ -59,6 +86,7 @@ export const RegisterPage: React.FC = () => {
                 placeholder="name@university.edu"
                 className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
                 required
+                maxLength={100}
               />
             </div>
           </div>
@@ -74,8 +102,42 @@ export const RegisterPage: React.FC = () => {
                 placeholder="Min 8 characters with numbers"
                 className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
                 required
+                maxLength={64}
               />
             </div>
+
+            {/* Password strength meter */}
+            {password.length > 0 && (
+              <div className="mt-2 space-y-1">
+                <div className="flex items-center justify-between text-[10px]">
+                  <span className="text-slate-500">Security Strength:</span>
+                  <span className={`font-bold ${
+                    passwordEval.strength === 'Strong' ? 'text-emerald-700' :
+                    passwordEval.strength === 'Good' ? 'text-blue-700' :
+                    passwordEval.strength === 'Fair' ? 'text-amber-700' : 'text-rose-700'
+                  }`}>
+                    {passwordEval.strength}
+                  </span>
+                </div>
+                <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden flex gap-1">
+                  {[1, 2, 3, 4].map(idx => (
+                    <div
+                      key={idx}
+                      className={`h-full flex-1 transition-all ${
+                        idx <= passwordEval.score
+                          ? passwordEval.score >= 3 ? 'bg-emerald-500' : passwordEval.score === 2 ? 'bg-amber-500' : 'bg-rose-500'
+                          : 'bg-slate-200'
+                      }`}
+                    />
+                  ))}
+                </div>
+                {passwordEval.feedback.length > 0 && (
+                  <p className="text-[10px] text-slate-400">
+                    Suggestion: {passwordEval.feedback[0]}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1.5 text-[11px] text-slate-500">
@@ -113,6 +175,11 @@ export const RegisterPage: React.FC = () => {
           >
             Sign In Here
           </button>
+        </div>
+
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+          <span>Zero Third-Party Tracking • GDPR & DPDP Aligned</span>
         </div>
       </div>
     </div>

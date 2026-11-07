@@ -19,6 +19,7 @@ import {
   X
 } from 'lucide-react';
 import { formatCurrency, formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
+import { sanitizeInput } from '../../utils/security';
 
 const STAGES: { id: ApplicationStatus; label: string; color: string; border: string; bg: string }[] = [
   { id: 'Interested', label: 'Interested', color: 'text-slate-700', border: 'border-slate-300', bg: 'bg-slate-100' },
@@ -54,7 +55,11 @@ export const ApplicationTracker: React.FC = () => {
 
   const handleSaveNotes = () => {
     if (editingItem) {
-      updateTrackedNotes(editingItem.id, notesText, refNumText);
+      updateTrackedNotes(
+        editingItem.id, 
+        sanitizeInput(notesText), 
+        sanitizeInput(refNumText)
+      );
       setEditingItem(null);
     }
   };

@@ -19,6 +19,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { formatDatePretty } from '../../utils/formatters';
+import { sanitizeInput, validateUploadedFile } from '../../utils/security';
 
 const DOC_CATEGORIES = [
   'Aadhaar Card',
@@ -50,6 +51,7 @@ export const DocumentVault: React.FC = () => {
   const [fileName, setFileName] = useState('');
   const [expiryDate, setExpiryDate] = useState('2027-03-31');
   const [notes, setNotes] = useState('');
+  const [uploadError, setUploadError] = useState('');
   const [previewDoc, setPreviewDoc] = useState<VaultDocument | null>(null);
 
   // Missing document detector across all tracked applications in Interested or Preparing status
@@ -76,19 +78,32 @@ export const DocumentVault: React.FC = () => {
 
   const handleUploadSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const finalName = fileName.trim() || `${selectedType.replace(/\s+/g, '_')}_Official.pdf`;
+    setUploadError('');
+
+    const cleanInputName = sanitizeInput(fileName);
+    const finalName = cleanInputName || `${selectedType.replace(/\s+/g, '_')}_Official.pdf`;
+    const simulatedSizeBytes = (Math.random() * 1.5 + 0.5) * 1024 * 1024;
+
+    // Security validation for extension and file size
+    const validation = validateUploadedFile(finalName, simulatedSizeBytes, 10);
+    if (!validation.isValid) {
+      setUploadError(validation.error || 'Security check failed for this document.');
+      return;
+    }
+
     addVaultDocument({
       docType: selectedType,
       fileName: finalName,
-      fileSize: `${(Math.random() * 1.5 + 0.5).toFixed(1)} MB`,
+      fileSize: `${(simulatedSizeBytes / (1024 * 1024)).toFixed(1)} MB`,
       expiryDate: selectedType === 'Income Certificate' || selectedType === 'Caste Certificate' ? expiryDate : undefined,
       status: 'Verified',
-      notes: notes || 'Student verified document.'
+      notes: sanitizeInput(notes) || 'Student verified document.'
     });
 
     setUploadModalOpen(false);
     setFileName('');
     setNotes('');
+    setUploadError('');
   };
 
   return (
@@ -248,6 +263,13 @@ export const DocumentVault: React.FC = () => {
                 <X className="w-4 h-4" />
               </button>
             </div>
+
+            {uploadError && (
+              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-semibold flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>{uploadError}</span>
+              </div>
+            )}
 
             <form onSubmit={handleUploadSubmit} className="space-y-4 text-xs">
               <div>

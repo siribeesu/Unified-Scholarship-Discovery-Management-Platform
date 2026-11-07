@@ -9,8 +9,12 @@ import {
   Award, 
   Building, 
   Wallet, 
-  GraduationCap 
+  GraduationCap,
+  ShieldCheck,
+  Eye,
+  EyeOff 
 } from 'lucide-react';
+import { sanitizeInput, maskSensitiveId } from '../../utils/security';
 
 export const StudentProfileView: React.FC = () => {
   const { currentUser, updateProfile } = useApp();
@@ -19,7 +23,17 @@ export const StudentProfileView: React.FC = () => {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    updateProfile(profile);
+    const sanitized = {
+      ...profile,
+      fullName: sanitizeInput(profile.fullName),
+      email: sanitizeInput(profile.email),
+      phone: sanitizeInput(profile.phone),
+      degree: sanitizeInput(profile.degree),
+      branch: sanitizeInput(profile.branch),
+      institutionName: sanitizeInput(profile.institutionName),
+      stateDomicile: sanitizeInput(profile.stateDomicile)
+    };
+    updateProfile(sanitized);
   };
 
   return (

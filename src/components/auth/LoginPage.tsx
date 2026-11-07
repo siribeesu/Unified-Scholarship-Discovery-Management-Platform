@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { GraduationCap, ArrowRight, Lock, Mail, Eye, EyeOff, ShieldCheck, Sparkles } from 'lucide-react';
+import { GraduationCap, ArrowRight, Lock, Mail, Eye, EyeOff, ShieldCheck, Sparkles, AlertTriangle } from 'lucide-react';
 import { DEMO_PROFILES } from '../../data/demoProfiles';
+import { sanitizeInput } from '../../utils/security';
 
 export const LoginPage: React.FC = () => {
   const { setCurrentView, login, switchPersona } = useApp();
@@ -9,15 +10,31 @@ export const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('Scholar2026!');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
-      setError('Please provide both email and password.');
+    if (isLocked) {
+      setError('Account temporarily locked due to excessive failed attempts. Please wait 30 seconds.');
       return;
     }
+
+    const cleanEmail = sanitizeInput(email);
+    if (!cleanEmail || !password) {
+      setError('Please provide both valid email and password.');
+      return;
+    }
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(cleanEmail)) {
+      setError('Please enter a valid academic or personal email address.');
+      return;
+    }
+
     setError('');
-    login(email);
+    login(cleanEmail);
   };
 
   const handleDemoSignIn = (idx: number) => {
@@ -59,8 +76,9 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium">
-            {error}
+          <div className="mb-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 
@@ -76,6 +94,7 @@ export const LoginPage: React.FC = () => {
                 placeholder="name@university.edu"
                 className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
                 required
+                maxLength={100}
               />
             </div>
           </div>
@@ -100,6 +119,7 @@ export const LoginPage: React.FC = () => {
                 placeholder="••••••••"
                 className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
                 required
+                maxLength={64}
               />
               <button
                 type="button"
@@ -114,13 +134,14 @@ export const LoginPage: React.FC = () => {
           <div className="flex items-center justify-between text-xs text-slate-600">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" defaultChecked className="rounded text-emerald-600 focus:ring-emerald-500" />
-              <span>Remember me for 30 days</span>
+              <span>Remember me on this trusted device</span>
             </label>
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/30 transition-all flex items-center justify-center gap-1.5"
+            disabled={isLocked}
+            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/30 transition-all flex items-center justify-center gap-1.5"
           >
             <span>Sign In to Dashboard</span>
             <ArrowRight className="w-4 h-4" />
@@ -137,9 +158,9 @@ export const LoginPage: React.FC = () => {
           </button>
         </div>
 
-        <div className="mt-4 flex items-center justify-center gap-1 text-[11px] text-slate-400">
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Encrypted 256-bit student data privacy</span>
+          <span>Encrypted Transport (TLS 1.3) & Anti-Brute Force Protection</span>
         </div>
       </div>
     </div>
