@@ -6,22 +6,16 @@ import {
   Plus, 
   CheckCircle2, 
   X, 
-  Calendar, 
-  Award, 
-  FileText, 
-  ExternalLink,
-  ShieldCheck,
-  ChevronRight,
+  ChevronRight, 
   Sparkles
 } from 'lucide-react';
-import { formatCurrency, formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
+import { formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
 
 export const ScholarshipComparison: React.FC = () => {
   const { 
     comparedScholarshipIds, 
     toggleCompare, 
     clearComparison, 
-    scholarships, 
     getScholarshipById, 
     getEvaluation, 
     addToTracker, 

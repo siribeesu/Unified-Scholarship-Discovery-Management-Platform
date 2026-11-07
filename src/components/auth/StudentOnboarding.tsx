@@ -2,15 +2,9 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { EducationLevel, Category, ScholarshipType } from '../../types/scholarship';
 import { 
-  GraduationCap, 
   ArrowRight, 
   ArrowLeft, 
-  CheckCircle2, 
-  Sparkles, 
-  Building, 
-  Award, 
-  DollarSign, 
-  Compass 
+  CheckCircle2
 } from 'lucide-react';
 
 export const StudentOnboarding: React.FC = () => {
@@ -38,7 +32,7 @@ export const StudentOnboarding: React.FC = () => {
     hasDisability: currentUser.hasDisability ?? false
   });
 
-  const updateField = (key: string, value: any) => {
+  const updateField = <K extends keyof typeof formData>(key: K, value: (typeof formData)[K]) => {
     setFormData(prev => ({ ...prev, [key]: value }));
   };
 

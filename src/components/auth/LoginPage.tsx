@@ -23,6 +23,14 @@ export const LoginPage: React.FC = () => {
     const cleanEmail = sanitizeInput(email);
     if (!cleanEmail || !password) {
       setError('Please provide both valid email and password.');
+      setFailedAttempts(prev => {
+        const next = prev + 1;
+        if (next >= 5) {
+          setIsLocked(true);
+          setTimeout(() => setIsLocked(false), 30000);
+        }
+        return next;
+      });
       return;
     }
 
@@ -30,6 +38,14 @@ export const LoginPage: React.FC = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(cleanEmail)) {
       setError('Please enter a valid academic or personal email address.');
+      setFailedAttempts(prev => {
+        const next = prev + 1;
+        if (next >= 5) {
+          setIsLocked(true);
+          setTimeout(() => setIsLocked(false), 30000);
+        }
+        return next;
+      });
       return;
     }
 
@@ -76,9 +92,16 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 shrink-0" />
-            <span>{error}</span>
+          <div className="mb-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-700 font-medium flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+            {failedAttempts > 0 && !isLocked && (
+              <span className="text-[10px] bg-rose-200 text-rose-800 px-1.5 py-0.5 rounded font-bold">
+                {failedAttempts}/5
+              </span>
+            )}
           </div>
         )}
 

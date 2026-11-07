@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { StudentProfile, Category, EducationLevel, ScholarshipType } from '../../types/scholarship';
+import { StudentProfile, Category, EducationLevel } from '../../types/scholarship';
 import { 
   UserCircle, 
   Save, 
-  CheckCircle2, 
   Sparkles, 
-  Award, 
-  Building, 
   Wallet, 
-  GraduationCap,
-  ShieldCheck,
-  Eye,
-  EyeOff 
+  GraduationCap
 } from 'lucide-react';
-import { sanitizeInput, maskSensitiveId } from '../../utils/security';
+import { sanitizeInput } from '../../utils/security';
 
 export const StudentProfileView: React.FC = () => {
   const { currentUser, updateProfile } = useApp();

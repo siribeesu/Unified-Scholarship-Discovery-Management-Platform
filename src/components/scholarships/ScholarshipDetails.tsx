@@ -6,20 +6,17 @@ import {
   CheckCircle2, 
   XCircle, 
   AlertTriangle, 
-  Clock, 
   Bookmark, 
   Layers, 
   Calendar, 
   FolderLock, 
   Share2, 
   ShieldCheck, 
-  Info, 
-  Award,
-  Sparkles,
-  ChevronRight,
+  Award, 
+  ChevronRight, 
   FileText
 } from 'lucide-react';
-import { formatCurrency, formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
+import { formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
 
 export const ScholarshipDetails: React.FC = () => {
   const { 
@@ -40,7 +37,6 @@ export const ScholarshipDetails: React.FC = () => {
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'eligibility' | 'documents' | 'benefits' | 'how-to-apply'>('eligibility');
-  const [showScoreModal, setShowScoreModal] = useState(false);
 
   const sch = selectedScholarshipId ? getScholarshipById(selectedScholarshipId) : undefined;
 

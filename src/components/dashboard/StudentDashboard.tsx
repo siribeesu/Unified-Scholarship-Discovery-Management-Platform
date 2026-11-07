@@ -3,18 +3,12 @@ import { useApp } from '../../context/AppContext';
 import { 
   Sparkles, 
   ArrowRight, 
-  CheckCircle2, 
   Clock, 
-  AlertCircle, 
   FolderLock, 
   ChevronRight, 
-  Plus, 
-  ExternalLink,
-  Award,
-  Wallet,
-  TrendingUp,
-  FileText,
-  Calendar,
+  Award, 
+  Wallet, 
+  TrendingUp, 
   Layers
 } from 'lucide-react';
 import { formatCurrency, formatDeadlineNotice } from '../../utils/formatters';

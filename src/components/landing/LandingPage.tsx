@@ -4,21 +4,12 @@ import {
   GraduationCap, 
   ArrowRight, 
   CheckCircle2, 
-  ShieldCheck, 
   Sparkles, 
-  FileCheck, 
-  TrendingUp, 
-  Clock, 
-  Search, 
-  Users, 
-  Building2, 
-  HelpCircle, 
   ChevronDown, 
   ChevronUp, 
-  Star,
-  DollarSign
+  Star
 } from 'lucide-react';
-import { formatCurrency, formatDeadlineNotice } from '../../utils/formatters';
+import { formatDeadlineNotice } from '../../utils/formatters';
 
 export const LandingPage: React.FC = () => {
   const { setCurrentView, scholarships, viewScholarshipDetails, addToTracker } = useApp();

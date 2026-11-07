@@ -5,11 +5,8 @@ import {
   Bell, 
   Download, 
   RotateCcw, 
-  ShieldCheck, 
-  Sparkles, 
   UserCheck,
-  Check,
-  ExternalLink 
+  Check
 } from 'lucide-react';
 import { DEMO_PROFILES } from '../../data/demoProfiles';
 

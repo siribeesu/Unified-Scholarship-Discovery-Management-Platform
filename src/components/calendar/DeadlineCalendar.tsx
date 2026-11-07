@@ -3,23 +3,15 @@ import { useApp } from '../../context/AppContext';
 import { 
   CalendarDays, 
   Clock, 
-  AlertTriangle, 
-  CheckCircle2, 
-  ChevronLeft, 
-  ChevronRight, 
-  ExternalLink,
-  Sparkles,
-  Calendar as CalendarIcon
+  Sparkles
 } from 'lucide-react';
-import { formatCurrency, formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
+import { formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
 
 export const DeadlineCalendar: React.FC = () => {
   const { 
     scholarships, 
     trackedApplications, 
-    viewScholarshipDetails, 
-    addToTracker, 
-    isScholarshipTracked 
+    viewScholarshipDetails 
   } = useApp();
 
   const [filterType, setFilterType] = useState<'all' | 'tracked' | 'urgent'>('all');
@@ -234,7 +226,6 @@ export const DeadlineCalendar: React.FC = () => {
             .sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime())
             .map(sch => {
               const notice = formatDeadlineNotice(sch.deadline);
-              const isTracked = isScholarshipTracked(sch.id);
               return (
                 <div
                   key={sch.id}

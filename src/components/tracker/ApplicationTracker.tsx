@@ -7,18 +7,11 @@ import {
   Plus, 
   Trash2, 
   Edit3, 
-  Clock, 
-  CheckCircle2, 
-  AlertCircle, 
-  FileText, 
-  CheckSquare, 
-  Square,
-  Sparkles,
-  ExternalLink,
-  Save,
+  Sparkles, 
+  Save, 
   X
 } from 'lucide-react';
-import { formatCurrency, formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
+import { formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
 import { sanitizeInput } from '../../utils/security';
 
 const STAGES: { id: ApplicationStatus; label: string; color: string; border: string; bg: string }[] = [
@@ -37,7 +30,6 @@ export const ApplicationTracker: React.FC = () => {
     updateTrackedStatus, 
     updateTrackedNotes, 
     removeFromTracker, 
-    toggleApplicationDoc,
     viewScholarshipDetails,
     setCurrentView 
   } = useApp();

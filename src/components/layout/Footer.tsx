@@ -108,7 +108,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} GRANTLY Inc. Built for ambitious scholars worldwide.</p>
+          <p>© 2026 GRANTLY Inc. Built for ambitious scholars worldwide.</p>
           <div className="flex items-center gap-1 text-slate-400">
             <span>Crafted with</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />

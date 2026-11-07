@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Scholarship, StudentProfile, Category, EducationLevel } from '../../types/scholarship';
+import { StudentProfile, Category, EducationLevel } from '../../types/scholarship';
 import { 
   Sparkles, 
   CheckCircle2, 
@@ -9,14 +9,12 @@ import {
   Sliders, 
   ArrowRight, 
   RotateCcw, 
-  Info,
-  Layers,
-  ChevronDown,
-  ChevronUp,
-  Bookmark
+  Layers, 
+  ChevronDown, 
+  ChevronUp
 } from 'lucide-react';
 import { evaluateEligibility } from '../../utils/eligibilityEngine';
-import { formatCurrency, formatDeadlineNotice } from '../../utils/formatters';
+import { formatDeadlineNotice } from '../../utils/formatters';
 
 export const EligibilityChecker: React.FC = () => {
   const { 

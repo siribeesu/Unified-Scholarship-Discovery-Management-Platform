@@ -2,21 +2,16 @@ import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { VaultDocument } from '../../types/scholarship';
 import { 
-  FolderLock, 
   Upload, 
-  FileText, 
   CheckCircle2, 
   AlertTriangle, 
-  Clock, 
   Trash2, 
   Eye, 
   Calendar, 
   ShieldCheck, 
-  Sparkles,
-  Plus,
-  X,
-  FileCheck,
-  AlertCircle
+  Plus, 
+  X, 
+  FileCheck
 } from 'lucide-react';
 import { formatDatePretty } from '../../utils/formatters';
 import { sanitizeInput, validateUploadedFile } from '../../utils/security';
@@ -40,10 +35,8 @@ export const DocumentVault: React.FC = () => {
     addVaultDocument, 
     deleteVaultDocument, 
     trackedApplications, 
-    scholarships, 
     getScholarshipById,
-    checkScholarshipMissingDocs,
-    setCurrentView 
+    checkScholarshipMissingDocs 
   } = useApp();
 
   const [uploadModalOpen, setUploadModalOpen] = useState(false);

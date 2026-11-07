@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useRef } from 'react';
 import { 
   Scholarship, 
   StudentProfile, 
@@ -86,7 +86,7 @@ interface AppContextType {
   removeToast: (id: string) => void;
 }
 
-const AppContext = createContext<AppContextType | undefined>(undefined);
+export const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const STORAGE_KEYS = {
   AUTH: 'grantly_auth_v1',
@@ -178,6 +178,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Toasts
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const toastCounterRef = useRef(1);
 
   // Sync to local storage
   useEffect(() => {
@@ -210,7 +211,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Toast Helpers
   const addToast = (toast: Omit<ToastMessage, 'id'>) => {
-    const id = Math.random().toString(36).substring(2, 9);
+    toastCounterRef.current += 1;
+    const id = `toast-${toastCounterRef.current}`;
     setToasts(prev => [...prev, { ...toast, id }]);
     setTimeout(() => {
       removeToast(id);
@@ -558,10 +560,4 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   );
 };
 
-export const useApp = () => {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error('useApp must be used within an AppProvider');
-  }
-  return context;
-};
+export { useApp } from './useApp';

@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { useApp } from './context/AppContext';
 import { Navbar } from './components/layout/Navbar';
 import { Sidebar } from './components/layout/Sidebar';
 import { Footer } from './components/layout/Footer';
 import { ToastContainer } from './components/common/ToastContainer';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { LoadingSpinner } from './components/common/LoadingSpinner';
 
-// Pages
-import { LandingPage } from './components/landing/LandingPage';
-import { LoginPage } from './components/auth/LoginPage';
-import { RegisterPage } from './components/auth/RegisterPage';
-import { StudentOnboarding } from './components/auth/StudentOnboarding';
-import { StudentDashboard } from './components/dashboard/StudentDashboard';
-import { ScholarshipDiscovery } from './components/scholarships/ScholarshipDiscovery';
-import { ScholarshipDetails } from './components/scholarships/ScholarshipDetails';
-import { EligibilityChecker } from './components/eligibility/EligibilityChecker';
-import { ScholarshipComparison } from './components/compare/ScholarshipComparison';
-import { ApplicationTracker } from './components/tracker/ApplicationTracker';
-import { DocumentVault } from './components/vault/DocumentVault';
-import { DeadlineCalendar } from './components/calendar/DeadlineCalendar';
-import { StudentProfileView } from './components/profile/StudentProfileView';
-import { SettingsView } from './components/settings/SettingsView';
+// Lazy-loaded routes for code splitting & high-performance loading
+const LandingPage = lazy(() => import('./components/landing/LandingPage').then(m => ({ default: m.LandingPage })));
+const LoginPage = lazy(() => import('./components/auth/LoginPage').then(m => ({ default: m.LoginPage })));
+const RegisterPage = lazy(() => import('./components/auth/RegisterPage').then(m => ({ default: m.RegisterPage })));
+const StudentOnboarding = lazy(() => import('./components/auth/StudentOnboarding').then(m => ({ default: m.StudentOnboarding })));
+const StudentDashboard = lazy(() => import('./components/dashboard/StudentDashboard').then(m => ({ default: m.StudentDashboard })));
+const ScholarshipDiscovery = lazy(() => import('./components/scholarships/ScholarshipDiscovery').then(m => ({ default: m.ScholarshipDiscovery })));
+const ScholarshipDetails = lazy(() => import('./components/scholarships/ScholarshipDetails').then(m => ({ default: m.ScholarshipDetails })));
+const EligibilityChecker = lazy(() => import('./components/eligibility/EligibilityChecker').then(m => ({ default: m.EligibilityChecker })));
+const ScholarshipComparison = lazy(() => import('./components/compare/ScholarshipComparison').then(m => ({ default: m.ScholarshipComparison })));
+const ApplicationTracker = lazy(() => import('./components/tracker/ApplicationTracker').then(m => ({ default: m.ApplicationTracker })));
+const DocumentVault = lazy(() => import('./components/vault/DocumentVault').then(m => ({ default: m.DocumentVault })));
+const DeadlineCalendar = lazy(() => import('./components/calendar/DeadlineCalendar').then(m => ({ default: m.DeadlineCalendar })));
+const StudentProfileView = lazy(() => import('./components/profile/StudentProfileView').then(m => ({ default: m.StudentProfileView })));
+const SettingsView = lazy(() => import('./components/settings/SettingsView').then(m => ({ default: m.SettingsView })));
 
 export function App() {
   const { currentView, isAuthenticated } = useApp();
@@ -61,38 +63,43 @@ export function App() {
     }
   };
 
-  // Determine whether to show the authenticated application layout (with Sidebar)
   const isPublicPage = currentView === 'landing' || currentView === 'login' || currentView === 'register' || currentView === 'onboarding';
   const showSidebar = isAuthenticated && !isPublicPage;
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans">
-      {/* Top Navbar */}
-      <Navbar onToggleMobileNav={() => setMobileSidebarOpen(prev => !prev)} />
+    <ErrorBoundary>
+      <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans">
+        {/* Top Navbar */}
+        <Navbar onToggleMobileNav={() => setMobileSidebarOpen(prev => !prev)} />
 
-      {/* Main Body */}
-      {showSidebar ? (
-        <div className="flex-1 flex max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <Sidebar
-            mobileOpen={mobileSidebarOpen}
-            onCloseMobile={() => setMobileSidebarOpen(false)}
-          />
-          <main className="flex-1 py-8 lg:pl-8 min-w-0">
-            {renderCurrentView()}
+        {/* Main Body */}
+        {showSidebar ? (
+          <div className="flex-1 flex max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+            <Sidebar
+              mobileOpen={mobileSidebarOpen}
+              onCloseMobile={() => setMobileSidebarOpen(false)}
+            />
+            <main className="flex-1 py-8 lg:pl-8 min-w-0">
+              <Suspense fallback={<LoadingSpinner />}>
+                {renderCurrentView()}
+              </Suspense>
+            </main>
+          </div>
+        ) : (
+          <main className="flex-1">
+            <Suspense fallback={<LoadingSpinner />}>
+              {renderCurrentView()}
+            </Suspense>
           </main>
-        </div>
-      ) : (
-        <main className="flex-1">
-          {renderCurrentView()}
-        </main>
-      )}
+        )}
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
 
-      {/* Global Toast Stack */}
-      <ToastContainer />
-    </div>
+        {/* Global Toast Stack */}
+        <ToastContainer />
+      </div>
+    </ErrorBoundary>
   );
 }
 

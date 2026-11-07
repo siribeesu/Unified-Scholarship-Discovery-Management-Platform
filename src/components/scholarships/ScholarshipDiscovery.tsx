@@ -1,23 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Scholarship, ScholarshipType, FundingBasis, EducationLevel } from '../../types/scholarship';
+import { EducationLevel } from '../../types/scholarship';
 import { 
   Search, 
-  Filter, 
   ArrowUpDown, 
-  Sparkles, 
   Clock, 
-  CheckCircle2, 
-  AlertCircle, 
-  Layers, 
   Bookmark, 
-  ExternalLink,
-  ChevronRight,
-  RotateCcw,
-  ShieldCheck,
-  Award
+  RotateCcw
 } from 'lucide-react';
-import { formatCurrency, formatDeadlineNotice } from '../../utils/formatters';
+import { formatDeadlineNotice } from '../../utils/formatters';
 
 export const ScholarshipDiscovery: React.FC = () => {
   const { 
@@ -123,7 +114,7 @@ export const ScholarshipDiscovery: React.FC = () => {
     selectedUrgency, 
     sortBy, 
     showOnlyEligible, 
-    currentUser
+    getEvaluation
   ]);
 
   const resetFilters = () => {
