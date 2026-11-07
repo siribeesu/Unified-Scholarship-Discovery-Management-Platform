@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
 import { sanitizeInput } from '../../utils/security';
+import { useModalA11y } from '../../hooks/useModalA11y';
 
 const STAGES: { id: ApplicationStatus; label: string; color: string; border: string; bg: string }[] = [
   { id: 'Interested', label: 'Interested', color: 'text-slate-700', border: 'border-slate-300', bg: 'bg-slate-100' },
@@ -38,6 +39,9 @@ export const ApplicationTracker: React.FC = () => {
   const [editingItem, setEditingItem] = useState<TrackedApplication | null>(null);
   const [notesText, setNotesText] = useState('');
   const [refNumText, setRefNumText] = useState('');
+
+  // Keyboard accessibility & focus restoration for modal
+  useModalA11y(Boolean(editingItem), () => setEditingItem(null));
 
   const openEditModal = (app: TrackedApplication) => {
     setEditingItem(app);

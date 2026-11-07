@@ -43,29 +43,35 @@ export function evaluateEligibility(
   // 2. Academic Merit / CGPA Check (Weight: 25)
   totalWeight += 25;
   const minCgpa = rules.minCgpaOrPercentage ?? 5.0;
-  const cgpaPassed = profile.cgpa >= minCgpa;
+  const studentCgpa = typeof profile.cgpa === 'number' 
+    ? profile.cgpa 
+    : typeof (profile as any).cgpaOrPercentage === 'number'
+      ? (profile as any).cgpaOrPercentage
+      : 7.0;
+
+  const cgpaPassed = studentCgpa >= minCgpa;
   if (cgpaPassed) {
     earnedScore += 25;
-    qualifications.push(`Strong academic merit: Your CGPA is ${profile.cgpa.toFixed(1)} / 10 (Cut-off is ${minCgpa.toFixed(1)}).`);
+    qualifications.push(`Strong academic merit: Your CGPA is ${studentCgpa.toFixed(1)} / 10 (Cut-off is ${minCgpa.toFixed(1)}).`);
     checks.push({
       criterion: 'Academic Merit (CGPA / %)',
-      studentValue: `${profile.cgpa.toFixed(1)} CGPA`,
+      studentValue: `${studentCgpa.toFixed(1)} CGPA`,
       requiredValue: `Min ${minCgpa.toFixed(1)} CGPA / ${(minCgpa * 10).toFixed(0)}%`,
       passed: true,
       isMandatory: true,
-      reason: `Your academic score (${profile.cgpa.toFixed(1)}) comfortably satisfies or exceeds the minimum threshold.`
+      reason: `Your academic score (${studentCgpa.toFixed(1)}) comfortably satisfies or exceeds the minimum threshold.`
     });
   } else {
-    const margin = minCgpa - profile.cgpa;
+    const margin = minCgpa - studentCgpa;
     if (margin <= 0.5) {
       earnedScore += 12; // partial credit if close
-      missingRequirements.push(`CGPA is ${profile.cgpa.toFixed(1)}, slightly below the cut-off of ${minCgpa.toFixed(1)} (Margin of ${(margin * 10).toFixed(0)}%).`);
+      missingRequirements.push(`CGPA is ${studentCgpa.toFixed(1)}, slightly below the cut-off of ${minCgpa.toFixed(1)} (Margin of ${(margin * 10).toFixed(0)}%).`);
     } else {
-      missingRequirements.push(`Requires minimum CGPA of ${minCgpa.toFixed(1)} (or ${(minCgpa * 10).toFixed(0)}%). Your current CGPA is ${profile.cgpa.toFixed(1)}.`);
+      missingRequirements.push(`Requires minimum CGPA of ${minCgpa.toFixed(1)} (or ${(minCgpa * 10).toFixed(0)}%). Your current CGPA is ${studentCgpa.toFixed(1)}.`);
     }
     checks.push({
       criterion: 'Academic Merit (CGPA / %)',
-      studentValue: `${profile.cgpa.toFixed(1)} CGPA`,
+      studentValue: `${studentCgpa.toFixed(1)} CGPA`,
       requiredValue: `Min ${minCgpa.toFixed(1)} CGPA`,
       passed: false,
       isMandatory: true,
@@ -264,6 +270,7 @@ export function detectMissingDocuments(
   missingDocs: Scholarship['requiredDocuments'];
   readyDocs: Scholarship['requiredDocuments'];
   isComplete: boolean;
+  completionPercentage: number;
 } {
   const normalizedVaultTypes = vaultDocs.map(d => d.docType.toLowerCase().trim());
   const normalizedFileNames = vaultDocs.map(d => d.fileName.toLowerCase());
@@ -297,11 +304,16 @@ export function detectMissingDocuments(
     }
   });
 
+  const requiredCount = scholarship.requiredDocuments.length;
+  const readyCount = readyDocs.length;
+  const completionPercentage = requiredCount > 0 ? Math.round((readyCount / requiredCount) * 100) : 100;
+
   return {
-    requiredCount: scholarship.requiredDocuments.length,
-    readyCount: readyDocs.length,
+    requiredCount,
+    readyCount,
     missingDocs,
     readyDocs,
-    isComplete: missingDocs.length === 0
+    isComplete: missingDocs.length === 0,
+    completionPercentage
   };
 }

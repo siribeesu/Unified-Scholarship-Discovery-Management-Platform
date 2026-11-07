@@ -12,6 +12,7 @@ import {
   Layers
 } from 'lucide-react';
 import { formatCurrency, formatDeadlineNotice } from '../../utils/formatters';
+import { AnalyticsService } from '../../services/analyticsService';
 import { 
   ResponsiveContainer, 
   BarChart, 
@@ -50,40 +51,12 @@ export const StudentDashboard: React.FC = () => {
     .sort((a, b) => b.eval.opportunityScore - a.eval.opportunityScore)
     .slice(0, 3);
 
-  // Financial calculations
-  // Total potential funding: all eligible + potentially eligible opportunities
-  const potentialFunding = evaluations
-    .filter(e => e.eval.status !== 'Not Eligible')
-    .reduce((sum, e) => sum + e.scholarship.amount, 0);
-
-  // In-progress applied funding
-  const appliedFunding = trackedApplications
-    .filter(t => ['Applied', 'Under Review', 'Shortlisted'].includes(t.status))
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  // Awarded funding
-  const awardedFunding = trackedApplications
-    .filter(t => t.status === 'Approved')
-    .reduce((sum, t) => sum + t.amount, 0);
+  // Financial calculations via AnalyticsService
+  const financialImpact = AnalyticsService.calculateFinancialImpact(evaluations, trackedApplications);
+  const { potentialFunding, appliedFunding, awardedFunding } = financialImpact;
 
   // Chart data for application status pipeline
-  const statusCounts = {
-    Interested: trackedApplications.filter(t => t.status === 'Interested').length,
-    Preparing: trackedApplications.filter(t => t.status === 'Preparing').length,
-    Applied: trackedApplications.filter(t => t.status === 'Applied').length,
-    'Under Review': trackedApplications.filter(t => t.status === 'Under Review').length,
-    Shortlisted: trackedApplications.filter(t => t.status === 'Shortlisted').length,
-    Approved: trackedApplications.filter(t => t.status === 'Approved').length,
-  };
-
-  const chartData = [
-    { name: 'Interested', count: statusCounts.Interested, color: '#94a3b8' },
-    { name: 'Preparing', count: statusCounts.Preparing, color: '#38bdf8' },
-    { name: 'Applied', count: statusCounts.Applied, color: '#6366f1' },
-    { name: 'Under Review', count: statusCounts['Under Review'], color: '#f59e0b' },
-    { name: 'Shortlisted', count: statusCounts.Shortlisted, color: '#8b5cf6' },
-    { name: 'Approved', count: statusCounts.Approved, color: '#10b981' }
-  ];
+  const chartData = AnalyticsService.getPipelineChartData(trackedApplications);
 
   // Urgent deadlines: Tracked scholarships closing within 14 days
   const urgentScholarships = scholarships

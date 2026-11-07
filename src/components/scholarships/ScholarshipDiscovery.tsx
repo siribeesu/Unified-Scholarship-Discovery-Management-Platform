@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
 import { EducationLevel } from '../../types/scholarship';
+import { useDebounce } from '../../hooks/useDebounce';
 import { 
   Search, 
   ArrowUpDown, 
@@ -26,6 +27,7 @@ export const ScholarshipDiscovery: React.FC = () => {
 
   // Filters state
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 180);
   const [selectedType, setSelectedType] = useState<string>('All');
   const [selectedBasis, setSelectedBasis] = useState<string>('All');
   const [selectedLevel, setSelectedLevel] = useState<string>('All');
@@ -43,9 +45,9 @@ export const ScholarshipDiscovery: React.FC = () => {
         return { sch, evaluation, notice };
       })
       .filter(({ sch, evaluation, notice }) => {
-        // Search term
-        if (searchTerm.trim()) {
-          const q = searchTerm.toLowerCase();
+        // Search term (debounced)
+        if (debouncedSearchTerm.trim()) {
+          const q = debouncedSearchTerm.toLowerCase();
           const matches = 
             sch.name.toLowerCase().includes(q) ||
             sch.organization.toLowerCase().includes(q) ||
@@ -106,7 +108,7 @@ export const ScholarshipDiscovery: React.FC = () => {
       });
   }, [
     scholarships, 
-    searchTerm, 
+    debouncedSearchTerm, 
     selectedType, 
     selectedBasis, 
     selectedLevel, 

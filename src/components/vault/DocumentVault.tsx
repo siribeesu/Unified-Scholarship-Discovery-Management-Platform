@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { formatDatePretty } from '../../utils/formatters';
 import { sanitizeInput, validateUploadedFile } from '../../utils/security';
+import { useModalA11y } from '../../hooks/useModalA11y';
 
 const DOC_CATEGORIES = [
   'Aadhaar Card',
@@ -46,6 +47,10 @@ export const DocumentVault: React.FC = () => {
   const [notes, setNotes] = useState('');
   const [uploadError, setUploadError] = useState('');
   const [previewDoc, setPreviewDoc] = useState<VaultDocument | null>(null);
+
+  // Keyboard accessibility & focus restoration for modals
+  useModalA11y(uploadModalOpen, () => setUploadModalOpen(false));
+  useModalA11y(Boolean(previewDoc), () => setPreviewDoc(null));
 
   // Missing document detector across all tracked applications in Interested or Preparing status
   const targetScholarships = trackedApplications
