@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { ApplicationStatus, TrackedApplication } from '../../types/scholarship';
 import { 
   Columns3, 

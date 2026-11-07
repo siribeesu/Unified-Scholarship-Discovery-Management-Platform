@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApp, AppView } from '../../context/AppContext';
+import { useApp, AppView } from '../../context';
 import { 
   LayoutDashboard, 
   Search, 
@@ -102,6 +102,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             <img 
               src={currentUser.avatarUrl} 
               alt={currentUser.fullName}
+              width={40}
+              height={40}
+              loading="lazy"
               className="w-10 h-10 rounded-full object-cover border border-emerald-300" 
             />
             <div className="min-w-0 flex-1">

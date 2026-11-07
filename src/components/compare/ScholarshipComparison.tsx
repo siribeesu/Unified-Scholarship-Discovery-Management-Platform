@@ -1,5 +1,5 @@
 import React from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { 
   Layers, 
   Trash2, 
@@ -102,8 +102,10 @@ export const ScholarshipComparison: React.FC = () => {
                       {sch.type}
                     </span>
                     <button
+                      type="button"
                       onClick={() => toggleCompare(sch.id)}
-                      className="text-slate-400 hover:text-slate-700 p-1"
+                      aria-label={`Remove ${sch.name} from comparison`}
+                      className="text-slate-400 hover:text-slate-700 p-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 rounded"
                       title="Remove from comparison"
                     >
                       <X className="w-4 h-4" />

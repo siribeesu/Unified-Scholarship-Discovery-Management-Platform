@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { 
   Settings, 
   Bell, 
@@ -92,6 +92,9 @@ export const SettingsView: React.FC = () => {
                   <img
                     src={p.avatarUrl}
                     alt={p.fullName}
+                    width={40}
+                    height={40}
+                    loading="lazy"
                     className="w-10 h-10 rounded-full object-cover border border-slate-200 shrink-0"
                   />
                   <div className="min-w-0 flex-1">

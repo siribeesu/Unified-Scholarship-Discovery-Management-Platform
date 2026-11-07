@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { 
   GraduationCap, 
   ArrowRight, 
@@ -364,12 +364,15 @@ export const LandingPage: React.FC = () => {
               <div className="mt-5 pt-4 border-t border-slate-100 flex items-center gap-3">
                 <img
                   src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                  alt="Student"
+                  alt="Portrait of Priya Sharma"
+                  width={36}
+                  height={36}
+                  loading="lazy"
                   className="w-9 h-9 rounded-full object-cover border border-slate-200"
                 />
                 <div>
                   <h5 className="text-xs font-bold text-slate-900">Priya Sharma</h5>
-                  <p className="text-[11px] text-slate-400">B.Tech CSE, 3rd Year • Pune</p>
+                  <p className="text-[11px] text-slate-500">B.Tech CSE, 3rd Year • Pune</p>
                 </div>
               </div>
             </div>
@@ -388,12 +391,15 @@ export const LandingPage: React.FC = () => {
               <div className="mt-5 pt-4 border-t border-slate-100 flex items-center gap-3">
                 <img
                   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80"
-                  alt="Student"
+                  alt="Portrait of Rahul Verma"
+                  width={36}
+                  height={36}
+                  loading="lazy"
                   className="w-9 h-9 rounded-full object-cover border border-slate-200"
                 />
                 <div>
                   <h5 className="text-xs font-bold text-slate-900">Rahul Verma</h5>
-                  <p className="text-[11px] text-slate-400">M.Sc Biotechnology • New Delhi</p>
+                  <p className="text-[11px] text-slate-500">M.Sc Biotechnology • New Delhi</p>
                 </div>
               </div>
             </div>
@@ -412,12 +418,15 @@ export const LandingPage: React.FC = () => {
               <div className="mt-5 pt-4 border-t border-slate-100 flex items-center gap-3">
                 <img
                   src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80"
-                  alt="Student"
+                  alt="Portrait of Ananya Sen"
+                  width={36}
+                  height={36}
+                  loading="lazy"
                   className="w-9 h-9 rounded-full object-cover border border-slate-200"
                 />
                 <div>
                   <h5 className="text-xs font-bold text-slate-900">Ananya Sen</h5>
-                  <p className="text-[11px] text-slate-400">Economics Scholar • Kolkata</p>
+                  <p className="text-[11px] text-slate-500">Economics Scholar • Kolkata</p>
                 </div>
               </div>
             </div>

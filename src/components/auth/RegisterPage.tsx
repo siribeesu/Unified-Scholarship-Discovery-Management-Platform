@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { GraduationCap, ArrowRight, User, Mail, Lock, CheckCircle2, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { sanitizeInput, validatePasswordStrength } from '../../utils/security';
 

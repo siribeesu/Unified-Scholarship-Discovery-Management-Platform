@@ -1,12 +1,12 @@
 import React from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { GraduationCap, ShieldCheck, Heart, ExternalLink } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const { setCurrentView } = useApp();
 
   return (
-    <footer className="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 mt-auto">
+    <footer role="contentinfo" className="bg-slate-900 text-slate-300 pt-16 pb-12 border-t border-slate-800 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
           {/* Brand info */}

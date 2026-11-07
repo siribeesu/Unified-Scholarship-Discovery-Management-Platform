@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { 
   ArrowLeft, 
   ExternalLink, 
@@ -17,6 +17,7 @@ import {
   FileText
 } from 'lucide-react';
 import { formatDeadlineNotice, formatDatePretty } from '../../utils/formatters';
+import { isSafeUrl } from '../../utils/security';
 
 export const ScholarshipDetails: React.FC = () => {
   const { 
@@ -196,7 +197,7 @@ export const ScholarshipDetails: React.FC = () => {
               </button>
 
               <a
-                href={sch.applicationUrl}
+                href={isSafeUrl(sch.applicationUrl) ? sch.applicationUrl : '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-2.5 rounded-xl font-bold text-xs border border-slate-300 hover:bg-slate-100 text-slate-800 transition-colors flex items-center justify-center gap-1.5"
@@ -519,7 +520,7 @@ export const ScholarshipDetails: React.FC = () => {
 
             <div className="pt-2">
               <a
-                href={sch.applicationUrl}
+                href={isSafeUrl(sch.applicationUrl) ? sch.applicationUrl : '#'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition-all"

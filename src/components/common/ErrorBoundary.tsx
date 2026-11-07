@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertCircle, RotateCcw } from 'lucide-react';
 
 interface Props {
@@ -31,7 +31,11 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-slate-800">
+        <div 
+          role="alert" 
+          aria-live="assertive" 
+          className="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-slate-800"
+        >
           <div className="bg-white rounded-2xl border border-slate-200 p-8 max-w-md w-full shadow-xl text-center space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto border border-rose-100">
               <AlertCircle className="w-6 h-6" />

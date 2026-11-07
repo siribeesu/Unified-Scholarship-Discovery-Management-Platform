@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { 
   GraduationCap, 
   Search, 
@@ -31,7 +31,7 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-all">
+    <header role="banner" className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-all">
       {/* Top Demo Notice Bar */}
       <div className="bg-gradient-to-r from-emerald-900 via-slate-900 to-emerald-950 text-white text-xs py-1.5 px-4 text-center flex items-center justify-center gap-2 font-medium">
         <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -159,6 +159,9 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
                     <img 
                       src={p.avatarUrl} 
                       alt={p.fullName} 
+                      width={28}
+                      height={28}
+                      loading="lazy"
                       className="w-7 h-7 rounded-full object-cover border border-slate-200 shrink-0 mt-0.5" 
                     />
                     <div>
@@ -231,6 +234,9 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
                   <img
                     src={currentUser.avatarUrl}
                     alt={currentUser.fullName}
+                    width={32}
+                    height={32}
+                    loading="lazy"
                     className="w-8 h-8 rounded-full object-cover border-2 border-emerald-500 shadow-2xs"
                   />
                   <div className="hidden sm:block text-left text-xs">
@@ -290,7 +296,9 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
           {!isAuthenticated && (
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg"
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+              className="md:hidden p-2 text-slate-600 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>

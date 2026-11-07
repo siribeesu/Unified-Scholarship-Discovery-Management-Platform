@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { StudentProfile, Category, EducationLevel } from '../../types/scholarship';
 import { 
   UserCircle, 
@@ -63,6 +63,9 @@ export const StudentProfileView: React.FC = () => {
             <img
               src={profile.avatarUrl}
               alt={profile.fullName}
+              width={64}
+              height={64}
+              loading="lazy"
               className="w-16 h-16 rounded-full object-cover border-2 border-emerald-500 shadow-sm"
             />
             <div>

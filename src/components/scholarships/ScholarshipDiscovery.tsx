@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 import { EducationLevel } from '../../types/scholarship';
 import { useDebounce } from '../../hooks/useDebounce';
 import { 
@@ -160,12 +160,15 @@ export const ScholarshipDiscovery: React.FC = () => {
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               placeholder="Search by scholarship name, provider (e.g. Tata, Reliance, AICTE), or keyword..."
+              aria-label="Search scholarships by keyword or provider"
               className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
             />
             {searchTerm && (
               <button
+                type="button"
                 onClick={() => setSearchTerm('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600"
+                aria-label="Clear search input"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 rounded"
               >
                 Clear
               </button>
@@ -180,6 +183,7 @@ export const ScholarshipDiscovery: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value as any)}
+                aria-label="Sort scholarships"
                 className="bg-transparent font-bold text-slate-900 focus:outline-none cursor-pointer"
               >
                 <option value="opportunity">Opportunity Score (Smart)</option>
@@ -197,6 +201,7 @@ export const ScholarshipDiscovery: React.FC = () => {
           <select
             value={selectedType}
             onChange={e => setSelectedType(e.target.value)}
+            aria-label="Filter by scholarship type"
             className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500"
           >
             <option value="All">All Providers (Govt & CSR)</option>
@@ -210,6 +215,7 @@ export const ScholarshipDiscovery: React.FC = () => {
           <select
             value={selectedBasis}
             onChange={e => setSelectedBasis(e.target.value)}
+            aria-label="Filter by funding basis"
             className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500"
           >
             <option value="All">All Funding Bases</option>
@@ -223,6 +229,7 @@ export const ScholarshipDiscovery: React.FC = () => {
           <select
             value={selectedLevel}
             onChange={e => setSelectedLevel(e.target.value)}
+            aria-label="Filter by education level"
             className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500"
           >
             <option value="All">All Education Levels</option>
@@ -236,6 +243,7 @@ export const ScholarshipDiscovery: React.FC = () => {
           <select
             value={selectedAmountRange}
             onChange={e => setSelectedAmountRange(e.target.value)}
+            aria-label="Filter by funding amount"
             className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500"
           >
             <option value="All">Any Amount</option>
@@ -248,6 +256,7 @@ export const ScholarshipDiscovery: React.FC = () => {
           <select
             value={selectedUrgency}
             onChange={e => setSelectedUrgency(e.target.value)}
+            aria-label="Filter by application deadline"
             className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-medium focus:outline-none focus:ring-1 focus:ring-emerald-500"
           >
             <option value="All">All Deadlines</option>
@@ -334,8 +343,10 @@ export const ScholarshipDiscovery: React.FC = () => {
 
                     <div className="flex items-center gap-1">
                       <button
+                        type="button"
                         onClick={() => toggleSaveScholarship(sch.id)}
-                        className={`p-1 rounded-md transition-colors ${
+                        aria-label={isSaved ? `Remove ${sch.name} from bookmarks` : `Bookmark ${sch.name}`}
+                        className={`p-1 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 ${
                           isSaved ? 'text-amber-500 fill-amber-500' : 'text-slate-300 hover:text-slate-500'
                         }`}
                         title={isSaved ? 'Bookmarked' : 'Bookmark'}
