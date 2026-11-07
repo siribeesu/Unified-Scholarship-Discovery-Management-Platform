@@ -268,10 +268,14 @@ export const ScholarshipDetails: React.FC = () => {
 
       {/* Tabs Navigation */}
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-        <div className="flex border-b border-slate-200 text-xs font-bold overflow-x-auto">
+        <div role="tablist" aria-label="Scholarship Details Sections" className="flex border-b border-slate-200 text-xs font-bold overflow-x-auto">
           <button
+            role="tab"
+            id="tab-eligibility"
+            aria-selected={activeTab === 'eligibility'}
+            aria-controls="panel-eligibility"
             onClick={() => setActiveTab('eligibility')}
-            className={`px-5 py-3.5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
+            className={`px-5 py-3.5 border-b-2 transition-all flex items-center gap-2 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
               activeTab === 'eligibility'
                 ? 'border-emerald-600 text-emerald-800 bg-emerald-50/40'
                 : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -285,8 +289,12 @@ export const ScholarshipDetails: React.FC = () => {
           </button>
 
           <button
+            role="tab"
+            id="tab-documents"
+            aria-selected={activeTab === 'documents'}
+            aria-controls="panel-documents"
             onClick={() => setActiveTab('documents')}
-            className={`px-5 py-3.5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
+            className={`px-5 py-3.5 border-b-2 transition-all flex items-center gap-2 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
               activeTab === 'documents'
                 ? 'border-emerald-600 text-emerald-800 bg-emerald-50/40'
                 : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -300,8 +308,12 @@ export const ScholarshipDetails: React.FC = () => {
           </button>
 
           <button
+            role="tab"
+            id="tab-benefits"
+            aria-selected={activeTab === 'benefits'}
+            aria-controls="panel-benefits"
             onClick={() => setActiveTab('benefits')}
-            className={`px-5 py-3.5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
+            className={`px-5 py-3.5 border-b-2 transition-all flex items-center gap-2 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
               activeTab === 'benefits'
                 ? 'border-emerald-600 text-emerald-800 bg-emerald-50/40'
                 : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -312,8 +324,12 @@ export const ScholarshipDetails: React.FC = () => {
           </button>
 
           <button
+            role="tab"
+            id="tab-how-to-apply"
+            aria-selected={activeTab === 'how-to-apply'}
+            aria-controls="panel-how-to-apply"
             onClick={() => setActiveTab('how-to-apply')}
-            className={`px-5 py-3.5 border-b-2 transition-all flex items-center gap-2 shrink-0 ${
+            className={`px-5 py-3.5 border-b-2 transition-all flex items-center gap-2 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
               activeTab === 'how-to-apply'
                 ? 'border-emerald-600 text-emerald-800 bg-emerald-50/40'
                 : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -326,7 +342,7 @@ export const ScholarshipDetails: React.FC = () => {
 
         {/* Tab 1: Detailed Rule-Based Eligibility */}
         {activeTab === 'eligibility' && (
-          <div className="p-6 space-y-6">
+          <div role="tabpanel" id="panel-eligibility" aria-labelledby="tab-eligibility" className="p-6 space-y-6">
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
               <div className="flex items-center gap-2">
                 <span className={`text-xs font-bold px-2 py-0.5 rounded ${
@@ -395,7 +411,7 @@ export const ScholarshipDetails: React.FC = () => {
 
         {/* Tab 2: Document Vault Readiness */}
         {activeTab === 'documents' && (
-          <div className="p-6 space-y-5">
+          <div role="tabpanel" id="panel-documents" aria-labelledby="tab-documents" className="p-6 space-y-5">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="text-sm font-bold text-slate-900">Mandatory Application Documents</h4>
@@ -450,7 +466,7 @@ export const ScholarshipDetails: React.FC = () => {
 
         {/* Tab 3: Benefits & Disbursements */}
         {activeTab === 'benefits' && (
-          <div className="p-6 space-y-5">
+          <div role="tabpanel" id="panel-benefits" aria-labelledby="tab-benefits" className="p-6 space-y-5">
             <h4 className="text-sm font-bold text-slate-900">Scholarship Benefits & Allowances</h4>
             <div className="space-y-2.5">
               {sch.benefits.map((b, i) => (
@@ -472,7 +488,7 @@ export const ScholarshipDetails: React.FC = () => {
 
         {/* Tab 4: How to Apply */}
         {activeTab === 'how-to-apply' && (
-          <div className="p-6 space-y-5">
+          <div role="tabpanel" id="panel-how-to-apply" aria-labelledby="tab-how-to-apply" className="p-6 space-y-5">
             <h4 className="text-sm font-bold text-slate-900">Step-by-Step Application Guide</h4>
             <ol className="space-y-3 text-xs text-slate-700">
               <li className="flex gap-3">

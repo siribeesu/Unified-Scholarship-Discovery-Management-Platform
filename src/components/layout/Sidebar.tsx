@@ -132,7 +132,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onCloseMobile }) =
             <button
               key={item.id}
               onClick={() => handleNav(item.id)}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group ${
+              aria-current={isActive ? 'page' : undefined}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
                 isActive
                   ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-600/30 font-bold'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'

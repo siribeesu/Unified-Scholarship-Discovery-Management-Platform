@@ -51,7 +51,8 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
           {isAuthenticated && (
             <button
               onClick={onToggleMobileNav}
-              className="lg:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+              aria-label="Toggle navigation drawer"
+              className="lg:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
               title="Toggle Navigation Menu"
             >
               <Menu className="w-5 h-5" />
@@ -128,7 +129,9 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
           <div className="relative">
             <button
               onClick={() => setPersonaDropdownOpen(!personaDropdownOpen)}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg border border-slate-200/80 transition-colors"
+              aria-label="Switch student test persona"
+              aria-expanded={personaDropdownOpen}
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg border border-slate-200/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
               title="Test with different student demographics"
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
@@ -178,7 +181,8 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
           {/* Quick Comparison Tray shortcut */}
           <button
             onClick={() => setCurrentView('compare')}
-            className="relative p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+            aria-label={`Open scholarship comparison (${comparedScholarshipIds.length} selected)`}
+            className="relative p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             title="Open Scholarship Comparison Matrix"
           >
             <Layers className="w-5 h-5" />
@@ -193,13 +197,13 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
             <div className="flex items-center gap-2.5">
               <button
                 onClick={() => setCurrentView('login')}
-                className="text-sm font-semibold text-slate-700 hover:text-slate-900 px-3.5 py-2 rounded-lg hover:bg-slate-100 transition-colors"
+                className="text-sm font-semibold text-slate-700 hover:text-slate-900 px-3.5 py-2 rounded-lg hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
               >
                 Sign In
               </button>
               <button
                 onClick={() => setCurrentView('onboarding')}
-                className="text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-600/30 px-4 py-2 rounded-xl transition-all hover:shadow"
+                className="text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 shadow-sm shadow-emerald-600/30 px-4 py-2 rounded-xl transition-all hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
               >
                 Get Started Free
               </button>
@@ -208,7 +212,8 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setCurrentView('calendar')}
-                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors relative"
+                aria-label="View deadlines and reminders"
+                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 title="Upcoming Deadlines"
               >
                 <Bell className="w-5 h-5" />
@@ -219,7 +224,9 @@ export const Navbar: React.FC<{ onToggleMobileNav?: () => void }> = ({ onToggleM
               <div className="relative">
                 <button
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                  className="flex items-center gap-2.5 p-1 rounded-xl hover:bg-slate-100 transition-colors"
+                  aria-label="User account menu"
+                  aria-expanded={profileDropdownOpen}
+                  className="flex items-center gap-2.5 p-1 rounded-xl hover:bg-slate-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 >
                   <img
                     src={currentUser.avatarUrl}

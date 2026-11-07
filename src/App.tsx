@@ -69,6 +69,14 @@ export function App() {
   return (
     <ErrorBoundary>
       <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans">
+        {/* WCAG Skip-to-Content Link for Keyboard Accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-emerald-600 focus:text-white focus:rounded-xl focus:shadow-lg focus:font-bold focus:outline-none"
+        >
+          Skip to main content
+        </a>
+
         {/* Top Navbar */}
         <Navbar onToggleMobileNav={() => setMobileSidebarOpen(prev => !prev)} />
 
@@ -79,14 +87,14 @@ export function App() {
               mobileOpen={mobileSidebarOpen}
               onCloseMobile={() => setMobileSidebarOpen(false)}
             />
-            <main className="flex-1 py-8 lg:pl-8 min-w-0">
+            <main id="main-content" tabIndex={-1} className="flex-1 py-8 lg:pl-8 min-w-0 outline-none">
               <Suspense fallback={<LoadingSpinner />}>
                 {renderCurrentView()}
               </Suspense>
             </main>
           </div>
         ) : (
-          <main className="flex-1">
+          <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
             <Suspense fallback={<LoadingSpinner />}>
               {renderCurrentView()}
             </Suspense>

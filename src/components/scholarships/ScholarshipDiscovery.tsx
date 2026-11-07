@@ -277,9 +277,13 @@ export const ScholarshipDiscovery: React.FC = () => {
       </div>
 
       {/* Results Header */}
-      <div className="flex items-center justify-between text-xs text-slate-500 px-1">
+      <div 
+        role="status" 
+        aria-live="polite" 
+        className="flex items-center justify-between text-xs text-slate-500 px-1"
+      >
         <span>Showing <strong>{filteredScholarships.length}</strong> scholarships matching your criteria</span>
-        <span>Opportunity Score formula: Compatibility (50%) + Value (30%) + Urgency (20%)</span>
+        <span className="hidden sm:inline">Opportunity Score formula: Compatibility (50%) + Value (30%) + Urgency (20%)</span>
       </div>
 
       {/* Scholarship Cards Grid */}

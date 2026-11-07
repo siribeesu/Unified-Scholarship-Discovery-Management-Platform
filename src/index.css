@@ -6,6 +6,12 @@
   body {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   }
+
+  /* Accessible focus indicators for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid #059669;
+    outline-offset: 2px;
+  }
 }
 
 /* Custom scrollbar for sleek modern look */
@@ -31,4 +37,16 @@
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* WCAG 2.1 AA Reduced Motion Accessibility Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

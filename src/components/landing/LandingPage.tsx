@@ -443,17 +443,19 @@ export const LandingPage: React.FC = () => {
               >
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 font-bold text-slate-900 hover:bg-slate-50 transition-colors text-sm"
+                  aria-expanded={openFaq === idx}
+                  aria-controls={`faq-answer-${idx}`}
+                  className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 font-bold text-slate-900 hover:bg-slate-50 transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 >
                   <span>{faq.q}</span>
                   {openFaq === idx ? (
-                    <ChevronUp className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <ChevronUp className="w-4 h-4 text-emerald-600 shrink-0" aria-hidden="true" />
                   ) : (
-                    <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                    <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" aria-hidden="true" />
                   )}
                 </button>
                 {openFaq === idx && (
-                  <div className="px-5 pb-5 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50">
+                  <div id={`faq-answer-${idx}`} role="region" aria-label={faq.q} className="px-5 pb-5 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100 bg-slate-50/50">
                     {faq.a}
                   </div>
                 )}

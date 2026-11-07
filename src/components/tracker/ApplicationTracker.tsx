@@ -303,13 +303,19 @@ export const ApplicationTracker: React.FC = () => {
 
       {/* Edit Notes & Reference Modal */}
       {editingItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
+        <div 
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="edit-notes-modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs"
+        >
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="text-sm font-bold text-slate-900">Application Notes & Reference</h3>
+              <h3 id="edit-notes-modal-title" className="text-sm font-bold text-slate-900">Application Notes & Reference</h3>
               <button
                 onClick={() => setEditingItem(null)}
-                className="text-slate-400 hover:text-slate-600"
+                aria-label="Close notes dialog"
+                className="text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded p-1"
               >
                 <X className="w-4 h-4" />
               </button>

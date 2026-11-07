@@ -104,15 +104,21 @@ export const EligibilityChecker: React.FC = () => {
           {/* CGPA Slider */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="font-bold text-slate-700">CGPA Score</label>
+              <label htmlFor="sim-cgpa-slider" className="font-bold text-slate-700">CGPA Score</label>
               <span className="font-extrabold text-emerald-700">{simProfile.cgpa.toFixed(1)} / 10.0</span>
             </div>
             <input
+              id="sim-cgpa-slider"
               type="range"
               min="4.0"
               max="10.0"
               step="0.1"
               value={simProfile.cgpa}
+              aria-label="Simulated CGPA score out of 10.0"
+              aria-valuemin={4.0}
+              aria-valuemax={10.0}
+              aria-valuenow={simProfile.cgpa}
+              aria-valuetext={`${simProfile.cgpa.toFixed(1)} out of 10.0`}
               onChange={e => setSimProfile({ ...simProfile, cgpa: parseFloat(e.target.value) })}
               className="w-full accent-emerald-600 cursor-pointer"
             />
@@ -121,15 +127,21 @@ export const EligibilityChecker: React.FC = () => {
           {/* Income Slider */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="font-bold text-slate-700">Annual Family Income</label>
+              <label htmlFor="sim-income-slider" className="font-bold text-slate-700">Annual Family Income</label>
               <span className="font-extrabold text-emerald-700">₹{(simProfile.annualFamilyIncome / 100000).toFixed(1)} LPA</span>
             </div>
             <input
+              id="sim-income-slider"
               type="range"
               min="50000"
               max="2000000"
               step="50000"
               value={simProfile.annualFamilyIncome}
+              aria-label="Simulated annual family income in Indian Rupees"
+              aria-valuemin={50000}
+              aria-valuemax={2000000}
+              aria-valuenow={simProfile.annualFamilyIncome}
+              aria-valuetext={`₹${(simProfile.annualFamilyIncome / 100000).toFixed(1)} Lakhs per annum`}
               onChange={e => setSimProfile({ ...simProfile, annualFamilyIncome: parseInt(e.target.value) })}
               className="w-full accent-emerald-600 cursor-pointer"
             />

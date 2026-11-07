@@ -242,16 +242,22 @@ export const DocumentVault: React.FC = () => {
 
       {/* Upload Modal */}
       {uploadModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
+        <div 
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="upload-modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs"
+        >
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <h3 id="upload-modal-title" className="text-sm font-bold text-slate-900 flex items-center gap-2">
                 <Upload className="w-4 h-4 text-emerald-600" />
                 Upload Certificate to Vault
               </h3>
               <button
                 onClick={() => setUploadModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600"
+                aria-label="Close upload dialog"
+                className="text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded p-1"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -344,16 +350,22 @@ export const DocumentVault: React.FC = () => {
 
       {/* Document Preview Modal */}
       {previewDoc && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+        <div 
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="preview-modal-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs"
+        >
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div>
-                <h3 className="text-sm font-bold text-slate-900">{previewDoc.docType}</h3>
+                <h3 id="preview-modal-title" className="text-sm font-bold text-slate-900">{previewDoc.docType}</h3>
                 <p className="text-xs text-slate-400 font-mono">{previewDoc.fileName}</p>
               </div>
               <button
                 onClick={() => setPreviewDoc(null)}
-                className="text-slate-400 hover:text-slate-600"
+                aria-label="Close document preview dialog"
+                className="text-slate-400 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded p-1"
               >
                 <X className="w-5 h-5" />
               </button>
